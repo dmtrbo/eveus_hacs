@@ -2,7 +2,7 @@
 
 Інтеграція для [Home Assistant](https://www.home-assistant.io/), яка забезпечує локальне керування зарядними станціями **Energy Star Pro** та **Eveus Pro** через їхній вбудований веб-інтерфейс (JSON API).
 
-![Logo](https://raw.githubusercontent.com/V-Plum/evse_energy_star/main/custom_components/evse_energy_star/icon.png)
+![Logo](https://raw.githubusercontent.com/d-primikirio/eveus_hacs/main/custom_components/evse_energy_star/icon.png)
 
 ---
 
@@ -26,7 +26,7 @@
 1. Відкрий HACS → "Інтеграції" → "Користувацький репозиторій"
 2. Встав:
    ```
-   https://github.com/V-Plum/evse_energy_star
+   https://github.com/d-primikirio/eveus_hacs
    ```
 3. Вибери тип: `Integration`
 4. Встанови інтеграцію
@@ -66,7 +66,7 @@
 
 ## 📷 Скриншоти
 
-![Dashboard example](https://raw.githubusercontent.com/V-Plum/evse_energy_star/main/images/dashboard_example.png)
+![Dashboard example](https://raw.githubusercontent.com/d-primikirio/eveus_hacs/main/images/dashboard_example.png)
 
 ---
 
@@ -79,8 +79,13 @@
 
 ## 👤 Автор
 
-**[@V-Plum](https://github.com/V-Plum)**  
+**[@d-primikirio](https://github.com/d-primikirio)**  
 Pull requests, issues та зірочки — вітаються!
+
+### Подяка оригінальному автору
+
+Цей проект є форком оригінальної роботи **[@V-Plum](https://github.com/V-Plum/evse_energy_star)**. 
+Дякуємо за чудову інтеграцію!
 
 ---
 
