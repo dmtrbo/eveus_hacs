@@ -17,7 +17,7 @@ SENSOR_DEFINITIONS = [
     ("voltMeas1", "evse_energy_star_voltage_phase_1", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None),
     ("temperature1", "evse_energy_star_temperature_box", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None),
     ("temperature2", "evse_energy_star_temperature_socket", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None),
-    ("leakValue", "evse_energy_star_leakage", "мА", SensorStateClass.MEASUREMENT, None, None),
+    ("leakValue", "evse_energy_star_leakage", "mA", SensorStateClass.MEASUREMENT, None, None),
     ("sessionEnergy", "evse_energy_star_session_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None),
     ("sessionTime", "evse_energy_star_session_time", None, None, None, None),
     ("totalEnergy", "evse_energy_star_total_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None),
@@ -86,11 +86,11 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
                 s = total_sec % 60
                 return f"{h:02}:{m:02}:{s:02}"
             if self._key == "state":
-                # Повертаємо ключ для перекладу з translations
+                # Return translation key from translations files
                 return STATUS_MAP.get(value, "unknown")
             return value
         except Exception as err:
-            _LOGGER.warning("sensor.py → помилка в обробці %s: %s", self._key, repr(err))
+            _LOGGER.warning("sensor.py → error processing %s: %s", self._key, repr(err))
             return str(value)
 
     def _handle_coordinator_update(self):
@@ -105,7 +105,7 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
                 if abs((new_dt - old_dt).total_seconds()) <= 2:
                     return
             except Exception as err:
-                _LOGGER.debug("sensor.py → systemTime порівняння: %s", repr(err))
+                _LOGGER.debug("sensor.py → systemTime comparison: %s", repr(err))
 
         self._attr_native_value = new_value
         self.async_write_ha_state()

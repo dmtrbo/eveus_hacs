@@ -94,7 +94,7 @@ class EVSENumber(CoordinatorEntity, NumberEntity):
             await self.coordinator.async_request_refresh()
             self.async_write_ha_state()
         except Exception as err:
-            _LOGGER.error("number.py → помилка запису %s = %s → %s", self._key, value, repr(err))
+            _LOGGER.error("number.py → error writing %s = %s → %s", self._key, value, repr(err))
 
     @property
     def device_info(self):

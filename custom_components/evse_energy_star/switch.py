@@ -70,7 +70,7 @@ class EVSESwitch(SwitchEntity):
             await session.post(f"http://{self._host}/pageEvent", data=payload, headers=headers)
             await self.coordinator.async_request_refresh()
         except Exception as err:
-            _LOGGER.error("switch.py → помилка запиту %s → %s", self._key, repr(err))
+            _LOGGER.error("switch.py → request error %s → %s", self._key, repr(err))
 
     async def _set_current_if_needed(self, target, only_if_high=False, only_if_low=False):
         current = float(self.coordinator.data.get("currentSet", 32))
@@ -122,7 +122,7 @@ class EVSEScheduleSwitch(SwitchEntity):
     async def _send(self, state: bool):
         data = self.coordinator.data
         if not data:
-            _LOGGER.warning("switch.py → coordinator.data порожній, розклад не оновлено")
+            _LOGGER.warning("switch.py → coordinator.data is empty, schedule not updated")
             return
 
         payload = (
@@ -138,7 +138,7 @@ class EVSEScheduleSwitch(SwitchEntity):
             })
             await self.coordinator.async_request_refresh()
         except Exception as err:
-            _LOGGER.error("switch.py → помилка оновлення розкладу → %s", repr(err))
+            _LOGGER.error("switch.py → schedule update error → %s", repr(err))
 
     @property
     def device_info(self):
@@ -190,7 +190,7 @@ class EVSESimpleSwitch(SwitchEntity):
             await session.post(f"http://{self._host}/pageEvent", data=payload, headers=headers)
             await self.coordinator.async_request_refresh()
         except Exception as err:
-            _LOGGER.error("switch.py → помилка запиту %s → %s", self._key, repr(err))
+            _LOGGER.error("switch.py → request error %s → %s", self._key, repr(err))
 
     @property
     def device_info(self):

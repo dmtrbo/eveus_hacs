@@ -38,11 +38,11 @@ class SyncTimeButton(CoordinatorEntity, ButtonEntity):
                 tz = int(float(str(raw_tz).strip()))
             except Exception:
                 tz = 0
-                _LOGGER.warning("button.py → невірне значення timeZone: '%s'", raw_tz)
+                _LOGGER.warning("button.py → invalid timeZone value: '%s'", raw_tz)
 
             local_ts = int(datetime.now().timestamp())
             system_time = local_ts + tz * 3600
-            _LOGGER.debug("button.py → Синхронізація часу: systemTime=%s", system_time)
+            _LOGGER.debug("button.py → Time sync: systemTime=%s", system_time)
 
             session = async_get_clientsession(self.coordinator.hass)
             await session.post(
@@ -52,7 +52,7 @@ class SyncTimeButton(CoordinatorEntity, ButtonEntity):
             )
 
         except Exception as err:
-            _LOGGER.error("button.py → помилка синхронізації часу: %s", repr(err))
+            _LOGGER.error("button.py → time sync error: %s", repr(err))
 
     @property
     def available(self):
@@ -88,7 +88,7 @@ class ChargeNowButton(CoordinatorEntity, ButtonEntity):
                 tz = int(float(str(tz_raw).strip()))
             except Exception:
                 tz = 0
-                _LOGGER.warning("chargeNow → невірне значення timeZone: '%s'", tz_raw)
+                _LOGGER.warning("chargeNow → invalid timeZone value: '%s'", tz_raw)
 
             start = data.get("startTime", "23:00")
             stop = data.get("stopTime", "07:00")
@@ -130,10 +130,10 @@ class ChargeNowButton(CoordinatorEntity, ButtonEntity):
                 headers={"Content-Type": "application/x-www-form-urlencoded"}
             )
 
-            _LOGGER.debug("chargeNow → Зарядка активована")
+            _LOGGER.debug("chargeNow → Charging activated")
 
         except Exception as err:
-            _LOGGER.error("chargeNow → помилка запиту: %s", repr(err))
+            _LOGGER.error("chargeNow → request error: %s", repr(err))
 
     @property
     def available(self):

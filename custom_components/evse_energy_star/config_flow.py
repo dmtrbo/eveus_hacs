@@ -32,7 +32,7 @@ class EVSEEnergyStarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["device_name"] = "required"
 
             if not errors:
-                # Отримуємо перекладений заголовок з translations/<lang>.json
+                # Get translated title from translations/<lang>.json
                 translations = await async_get_translations(
                     self.hass,
                     self.hass.config.language,
@@ -43,7 +43,7 @@ class EVSEEnergyStarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     "EVSE Energy Star"
                 )
 
-                # Назва інтеграції = введене ім'я пристрою
+                # Integration title = entered device name
                 return self.async_create_entry(
                     title=device_name,
                     data={

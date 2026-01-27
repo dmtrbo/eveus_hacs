@@ -40,7 +40,7 @@ class EVSETimeField(TextEntity):
         self.entity_description = description
         self._key = description.key
 
-        # ✅ Використання перекладу
+        # Use translation key for localized entity name
         self._attr_translation_key = description.translation_key
         self._attr_has_entity_name = True
         self._attr_unique_id = f"{description.translation_key}_{config_entry.entry_id}"
@@ -60,7 +60,7 @@ class EVSETimeField(TextEntity):
                         if value is not None:
                             self._attr_native_value = str(value)
         except Exception as err:
-            _LOGGER.warning("time.py → помилка оновлення %s → %s", self._key, err)
+            _LOGGER.warning("time.py → error updating %s → %s", self._key, err)
 
     async def async_set_value(self, value: str):
         try:
@@ -92,7 +92,7 @@ class EVSETimeField(TextEntity):
                     self._attr_native_value = value
                     self.async_write_ha_state()
         except Exception as err:
-            _LOGGER.error("time.py → помилка запису %s = %s → %s", self._key, value, err)
+            _LOGGER.error("time.py → error writing %s = %s → %s", self._key, value, err)
 
     @property
     def device_info(self):
