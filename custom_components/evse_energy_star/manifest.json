@@ -2,7 +2,7 @@
   "domain": "evse_energy_star",
   "name": "Eveus Chargers",
   "translation_key": "evse_energy_star",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "documentation": "https://github.com/d-primikirio/eveus_hacs",
   "image": "https://github.com/d-primikirio/eveus_hacs/raw/main/images/icon.png",
   "keywords": ["EVSE", "Energy Star Pro", "Eveus Pro", "Home Assistant", "charging"],
