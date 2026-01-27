@@ -48,10 +48,10 @@ class TimeZoneSelect(CoordinatorEntity, SelectEntity):
 
         if tz_str in self._attr_options:
             self._attr_current_option = tz_str
-            _LOGGER.debug("select.py → timeZone з /init: %s (%s)", tz_str, type(raw).__name__)
+            _LOGGER.debug("select.py → timeZone from /init: %s (%s)", tz_str, type(raw).__name__)
         else:
             self._attr_current_option = None
-            _LOGGER.warning("select.py → невірне значення timeZone з /init: '%s'", raw)
+            _LOGGER.warning("select.py → invalid timeZone value from /init: '%s'", raw)
 
     async def async_select_option(self, option: str):
         session = async_get_clientsession(self.coordinator.hass)
@@ -67,9 +67,9 @@ class TimeZoneSelect(CoordinatorEntity, SelectEntity):
             self._attr_current_option = option
             await self.coordinator.async_request_refresh()
             self.async_write_ha_state()
-            _LOGGER.debug("select.py → timeZone змінено на %s через /timer", option)
+            _LOGGER.debug("select.py → timeZone changed to %s via /timer", option)
         except Exception as err:
-            _LOGGER.error("select.py → помилка запиту /timer: timeZone=%s → %s", option, repr(err))
+            _LOGGER.error("select.py → /timer request error: timeZone=%s → %s", option, repr(err))
 
     @property
     def available(self):
@@ -112,9 +112,9 @@ class UpdateRateSelect(SelectEntity):
             )
             self._attr_current_option = option
             self.async_write_ha_state()
-            _LOGGER.info("select.py → update_rate змінено на %s сек", option)
+            _LOGGER.info("select.py → update_rate changed to %s sec", option)
         except Exception as err:
-            _LOGGER.error("select.py → помилка запису update_rate=%s → %s", option, repr(err))
+            _LOGGER.error("select.py → error writing update_rate=%s → %s", option, repr(err))
 
     @property
     def available(self):

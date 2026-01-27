@@ -2,7 +2,7 @@ DOMAIN = "evse_energy_star"
 DEFAULT_SCAN_INTERVAL = 30
 TITLE = "EVSE Energy Star"
 
-# Повертаємо КЛЮЧІ, а не тексти
+# Return translation KEYS, not actual text values
 STATUS_MAP = {
     0: "no_data",
     6: "charging",

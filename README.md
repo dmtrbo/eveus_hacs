@@ -1,83 +1,88 @@
 # ⚡ EVSE Energy Star
 
-Інтеграція для [Home Assistant](https://www.home-assistant.io/), яка забезпечує локальне керування зарядними станціями **Energy Star Pro** та **Eveus Pro** через вбудований веб-інтерфейс (JSON API).
+**English** | [Українська](README.uk.md)
 
 ---
 
-## 🆕 Відмінності від оригінальної версії 1.2.0
-
-### Виправлення помилок:
-- ✅ Виправлено некоректні значення сенсору струму
-- ✅ Виправлено некоректні значення сенсору потужності
+Home Assistant integration for local control of **Energy Star Pro** and **Eveus Pro** EV charging stations via their built-in web interface (JSON API).
 
 ---
 
-## 🔧 Можливості
+## 🆕 Changes from Original Version 1.2.0
 
-- Відображення статусу зарядної станції
-- Сенсори потужності, напруги, струму, температури
-- Контроль струму заряду, запуск/зупинка зарядки
-- Планування зарядки, таймери
-- Підтримка синхронізації часу
-- Повна локальна робота без хмари
-- UI-конфігурація через Config Flow
-- Підтримка **Energy Star Pro** і **Eveus Pro**
+### Bug Fixes:
+- ✅ Fixed incorrect current sensor values
+- ✅ Fixed incorrect power sensor values
 
 ---
 
-## 🚀 Встановлення
+## 🔧 Features
 
-### Варіант 1: через HACS (рекомендовано)
+- Display charging station status
+- Sensors for power, voltage, current, temperature
+- Control charging current, start/stop charging
+- Charge scheduling, timers
+- Time synchronization support
+- Full local operation without cloud
+- UI configuration via Config Flow
+- Support for **Energy Star Pro** and **Eveus Pro**
 
-1. Відкрити HACS → "Інтеграції" → "Користувацький репозиторій"
-2. Вставити:
+---
+
+## 🚀 Installation
+
+### Option 1: via HACS (recommended)
+
+1. Open HACS → "Integrations" → "Custom repositories"
+2. Add repository:
    ```
    https://github.com/d-primikirio/eveus_hacs
    ```
-3. Виберати тип: `Integration`
-4. Встановити інтеграцію
-5. Перезапусти Home Assistant
+3. Select category: `Integration`
+4. Install the integration
+5. Restart Home Assistant
 
-### Варіант 2: вручну
+### Option 2: Manual
 
-1. Скачати ZIP архів або склонувати репозиторій
-2. Скопіювати папку `evse_energy_star` у:
+1. Download ZIP archive or clone the repository
+2. Copy the `evse_energy_star` folder to:
    ```
    config/custom_components/evse_energy_star
    ```
-3. Перезапустити Home Assistant
+3. Restart Home Assistant
 
 ---
 
-## ⚙️ Налаштування
+## ⚙️ Configuration
 
-1. Перейдіть у `Налаштування` → `Пристрої та служби` → `Додати інтеграцію`
-2. Знайдіть "Eveus Chargers"
-3. Введіть:
-   - IP-адресу зарядної станції
-   - Ім’я користувача (опційно)
-   - Пароль (опційно)
-
----
-
-## 🛠️ Вимоги
-
-- Home Assistant 2023.0 або новіше
-- Зарядна станція Energy Star Pro або Eveus Pro з активним web-інтерфейсом
+1. Go to `Settings` → `Devices & Services` → `Add Integration`
+2. Search for "Eveus Chargers"
+3. Enter:
+   - Charging station IP address
+   - Username (optional)
+   - Password (optional)
 
 ---
 
-## 👤 Автор
+## 🛠️ Requirements
+
+- Home Assistant 2023.0 or newer
+- Energy Star Pro or Eveus Pro charging station with active web interface
+
+---
+
+## 👤 Author
 
 **[@d-primikirio](https://github.com/d-primikirio)**  
+Pull requests, issues, and stars are welcome!
 
-### Подяка оригінальному автору
+### Acknowledgment
 
-Цей проект є форком оригінальної роботи **[@V-Plum](https://github.com/V-Plum/evse_energy_star)**. 
-Дякуємо за чудову інтеграцію!
+This project is a fork of the original work by **[@V-Plum](https://github.com/V-Plum/evse_energy_star)**. 
+Thank you for the great integration!
 
 ---
 
-## 📝 Ліцензія
+## 📝 License
 
 [MIT License](LICENSE)
