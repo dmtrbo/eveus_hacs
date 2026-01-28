@@ -127,6 +127,9 @@
       },
       "evse_energy_star_adaptive_mode": {
         "name": "Adaptive Mode"
+      },
+      "evse_energy_star_stop_charging": {
+        "name": "Stop Charging Process"
       }
     },
     "button": {

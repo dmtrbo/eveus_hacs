@@ -127,6 +127,9 @@
       },
       "evse_energy_star_adaptive_mode": {
         "name": "Адаптивний режим"
+      },
+      "evse_energy_star_stop_charging": {
+        "name": "Зупинити процес заряду"
       }
     },
     "button": {
