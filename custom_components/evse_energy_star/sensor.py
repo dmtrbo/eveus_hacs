@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.config_entries import ConfigEntry
@@ -21,7 +21,7 @@ SENSOR_DEFINITIONS = [
     ("sessionEnergy", "evse_energy_star_session_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None),
     ("sessionTime", "evse_energy_star_session_time", None, None, None, None),
     ("totalEnergy", "evse_energy_star_total_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None),
-    ("systemTime", "evse_energy_star_system_time", None, None, None, None),
+    ("systemTime", "evse_energy_star_system_time", None, None, SensorDeviceClass.TIMESTAMP, None),
 ]
 
 THREE_PHASE_SENSORS = [
@@ -85,6 +85,10 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
                 m = (total_sec % 3600) // 60
                 s = total_sec % 60
                 return f"{h:02}:{m:02}:{s:02}"
+            if self._key == "systemTime":
+                # Convert Unix timestamp to datetime object with timezone
+                timestamp = int(float(value))
+                return datetime.fromtimestamp(timestamp, tz=timezone.utc)
             if self._key == "state":
                 # Return translation key from translations files
                 return STATUS_MAP.get(value, "unknown")
@@ -97,12 +101,11 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
         new_value = self.coordinator.data.get(self._key)
         if self._key == "systemTime":
             try:
-                old_str = str(self._attr_native_value)
-                new_str = str(new_value)
-                fmt = "%H:%M:%S"
-                old_dt = datetime.strptime(old_str, fmt)
-                new_dt = datetime.strptime(new_str, fmt)
-                if abs((new_dt - old_dt).total_seconds()) <= 2:
+                # Compare Unix timestamps directly
+                old_timestamp = int(float(self.coordinator.data.get(self._key, 0)))
+                new_timestamp = int(float(new_value))
+                # Only update if difference is more than 2 seconds
+                if abs(new_timestamp - old_timestamp) <= 2:
                     return
             except Exception as err:
                 _LOGGER.debug("sensor.py → systemTime comparison: %s", repr(err))
