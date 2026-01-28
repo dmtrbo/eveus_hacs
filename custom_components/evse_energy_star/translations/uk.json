@@ -46,20 +46,15 @@
       "evse_energy_star_status": {
         "name": "Статус зарядки",
         "state": {
-          "no_data": "Немає даних",
-          "charging": "Заряд",
+          "startup": "Запуск",
+          "system_test": "Тест системи",
           "waiting": "Очікування",
-          "ready": "Готовий",
-          "delayed_start": "Відкладений старт",
-          "overcurrent": "Перевищення струму",
-          "overvoltage": "Перевищення напруги",
-          "leakage": "Витік",
-          "station_error": "Помилка станції",
-          "overtemperature": "Перевищення температури",
-          "locked": "Заблоковано",
-          "no_ground": "Немає заземлення",
-          "plug_overheat": "Перегрів вилки",
-          "undervoltage": "Низька напруга"
+          "connected": "Підключено",
+          "charging": "Заряд",
+          "charge_complete": "Заряд завершено",
+          "suspended": "Призупинено",
+          "error": "Помилка",
+          "unknown": "Невідомо"
         }
       },
       "evse_energy_star_current_set": {

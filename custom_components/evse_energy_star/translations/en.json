@@ -46,20 +46,15 @@
       "evse_energy_star_status": {
         "name": "Charging Status",
         "state": {
-          "no_data": "No data",
-          "charging": "Charging",
+          "startup": "Startup",
+          "system_test": "System Test",
           "waiting": "Waiting",
-          "ready": "Ready",
-          "delayed_start": "Delayed start",
-          "overcurrent": "Overcurrent",
-          "overvoltage": "Overvoltage",
-          "leakage": "Leakage",
-          "station_error": "Station error",
-          "overtemperature": "Overtemperature",
-          "locked": "Locked",
-          "no_ground": "No ground",
-          "plug_overheat": "Plug overheat",
-          "undervoltage": "Undervoltage"
+          "connected": "Connected",
+          "charging": "Charging",
+          "charge_complete": "Charge Complete",
+          "suspended": "Suspended",
+          "error": "Error",
+          "unknown": "Unknown"
         }
       },
       "evse_energy_star_current_set": {
