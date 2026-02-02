@@ -114,9 +114,6 @@
       "evse_energy_star_restricted_mode": {
         "name": "Режим 16А"
       },
-      "evse_energy_star_schedule": {
-        "name": "Робота за розкладом"
-      },
       "evse_energy_star_one_charge": {
         "name": "Один заряд"
       },
@@ -136,14 +133,6 @@
       },
       "evse_energy_star_start_now": {
         "name": "Відключити ліміти та розклади"
-      }
-    },
-    "time": {
-      "evse_energy_star_start_time": {
-        "name": "Час старту"
-      },
-      "evse_energy_star_stop_time": {
-        "name": "Час завершення"
       }
     }
   },

@@ -34,6 +34,7 @@ class TimeZoneSelect(CoordinatorEntity, SelectEntity):
         )
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{self.coordinator.device_name_slug}_{self._attr_translation_key}"
+        self._attr_entity_registry_enabled_default = False
 
         self._attr_unique_id = f"time_zone_{config_entry.entry_id}"
         self._attr_options = TIMEZONE_OPTIONS

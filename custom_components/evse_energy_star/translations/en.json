@@ -114,9 +114,6 @@
       "evse_energy_star_restricted_mode": {
         "name": "16A Mode"
       },
-      "evse_energy_star_schedule": {
-        "name": "Schedule"
-      },
       "evse_energy_star_one_charge": {
         "name": "One-Time Charge"
       },
@@ -136,14 +133,6 @@
       },
       "evse_energy_star_start_now": {
         "name": "Reset Limits and Schedules"
-      }
-    },
-    "time": {
-      "evse_energy_star_start_time": {
-        "name": "Start Time"
-      },
-      "evse_energy_star_stop_time": {
-        "name": "Stop Time"
       }
     }
   },

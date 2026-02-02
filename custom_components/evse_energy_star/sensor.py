@@ -12,24 +12,24 @@ from .const import DOMAIN, STATUS_MAP
 _LOGGER = logging.getLogger(__name__)
 
 SENSOR_DEFINITIONS = [
-    ("state", "evse_energy_star_status", None, None, SensorDeviceClass.ENUM, ["startup", "system_test", "waiting", "connected", "charging", "charge_complete", "suspended", "error", "unknown"]),
-    ("currentSet", "evse_energy_star_current_set", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None),
-    ("curMeas1", "evse_energy_star_current_phase_1", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None),
-    ("voltMeas1", "evse_energy_star_voltage_phase_1", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None),
-    ("temperature1", "evse_energy_star_temperature_box", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None),
-    ("temperature2", "evse_energy_star_temperature_socket", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None),
-    ("leakValue", "evse_energy_star_leakage", "mA", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None),
-    ("sessionEnergy", "evse_energy_star_session_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None),
-    ("sessionTime", "evse_energy_star_session_time", None, None, None, None),
-    ("totalEnergy", "evse_energy_star_total_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None),
-    ("systemTime", "evse_energy_star_system_time", None, None, None, None),
+    ("state", "evse_energy_star_status", None, None, SensorDeviceClass.ENUM, ["startup", "system_test", "waiting", "connected", "charging", "charge_complete", "suspended", "error", "unknown"], True),
+    ("currentSet", "evse_energy_star_current_set", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, True),
+    ("curMeas1", "evse_energy_star_current_phase_1", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, True),
+    ("voltMeas1", "evse_energy_star_voltage_phase_1", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None, True),
+    ("temperature1", "evse_energy_star_temperature_box", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None, True),
+    ("temperature2", "evse_energy_star_temperature_socket", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None, True),
+    ("leakValue", "evse_energy_star_leakage", "mA", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, False),
+    ("sessionEnergy", "evse_energy_star_session_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None, True),
+    ("sessionTime", "evse_energy_star_session_time", None, None, None, None, False),
+    ("totalEnergy", "evse_energy_star_total_energy", "kWh", SensorStateClass.TOTAL_INCREASING, SensorDeviceClass.ENERGY, None, True),
+    ("systemTime", "evse_energy_star_system_time", None, None, None, None, False),
 ]
 
 THREE_PHASE_SENSORS = [
-    ("curMeas2", "evse_energy_star_current_phase_2", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None),
-    ("curMeas3", "evse_energy_star_current_phase_3", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None),
-    ("voltMeas2", "evse_energy_star_voltage_phase_2", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None),
-    ("voltMeas3", "evse_energy_star_voltage_phase_3", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None),
+    ("curMeas2", "evse_energy_star_current_phase_2", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, True),
+    ("curMeas3", "evse_energy_star_current_phase_3", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, True),
+    ("voltMeas2", "evse_energy_star_voltage_phase_2", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None, True),
+    ("voltMeas3", "evse_energy_star_voltage_phase_3", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None, True),
 ]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
@@ -38,21 +38,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     device_type = entry.options.get("device_type", entry.data.get("device_type", "1_phase"))
 
     entities = [
-        EVSESensor(coordinator, entry, key, trans_key, unit, state_class, device_class, options)
-        for key, trans_key, unit, state_class, device_class, options in SENSOR_DEFINITIONS
+        EVSESensor(coordinator, entry, key, trans_key, unit, state_class, device_class, options, enabled_default)
+        for key, trans_key, unit, state_class, device_class, options, enabled_default in SENSOR_DEFINITIONS
     ]
 
     if device_type == "3_phase":
         entities += [
-            EVSESensor(coordinator, entry, key, trans_key, unit, state_class, device_class, options)
-            for key, trans_key, unit, state_class, device_class, options in THREE_PHASE_SENSORS
+            EVSESensor(coordinator, entry, key, trans_key, unit, state_class, device_class, options, enabled_default)
+            for key, trans_key, unit, state_class, device_class, options, enabled_default in THREE_PHASE_SENSORS
         ]
 
     entities.append(EVSEGroundStatus(coordinator, entry))
     async_add_entities(entities)
 
 class EVSESensor(CoordinatorEntity, SensorEntity):
-    def __init__(self, coordinator, config_entry: ConfigEntry, key, translation_key, unit, state_class, device_class, options=None):
+    def __init__(self, coordinator, config_entry: ConfigEntry, key, translation_key, unit, state_class, device_class, options=None, enabled_default=True):
         super().__init__(coordinator)
         self.coordinator = coordinator
         self.config_entry = config_entry
@@ -61,6 +61,7 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
         self._attr_native_unit_of_measurement = unit
         self._attr_state_class = state_class
         self._attr_device_class = device_class
+        self._attr_entity_registry_enabled_default = enabled_default
         if options:
             self._attr_options = options
 
@@ -136,6 +137,7 @@ class EVSEGroundStatus(CoordinatorEntity, SensorEntity):
         self._attr_translation_key = "evse_energy_star_ground_status"
         self._attr_device_class = SensorDeviceClass.ENUM
         self._attr_options = ["✅", "❌"]
+        self._attr_entity_registry_enabled_default = False
 
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{self.coordinator.device_name_slug}_{self._attr_translation_key}"

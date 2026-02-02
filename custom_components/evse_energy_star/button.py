@@ -30,6 +30,7 @@ class SyncTimeButton(CoordinatorEntity, ButtonEntity):
         self._attr_should_poll = False
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{slug}_{self._attr_translation_key}"
+        self._attr_entity_registry_enabled_default = False
 
     async def async_press(self):
         try:
@@ -79,6 +80,7 @@ class ChargeNowButton(CoordinatorEntity, ButtonEntity):
         self._attr_should_poll = False
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{slug}_{self._attr_translation_key}"
+        self._attr_entity_registry_enabled_default = False
 
     async def async_press(self):
         try:

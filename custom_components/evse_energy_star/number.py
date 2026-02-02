@@ -17,7 +17,8 @@ NUMBER_DEFINITIONS = [
         "min": 6,
         "max": 32,
         "step": 1,
-        "unit": "A"
+        "unit": "A",
+        "enabled_default": True
     },
     {
         "key": "aiVoltage",
@@ -26,7 +27,8 @@ NUMBER_DEFINITIONS = [
         "min": 180,
         "max": 240,
         "step": 1,
-        "unit": "V"
+        "unit": "V",
+        "enabled_default": False
     }
 ]
 
@@ -54,6 +56,7 @@ class EVSENumber(CoordinatorEntity, NumberEntity):
         self._attr_native_step = config["step"]
         self._attr_native_min_value = config["min"]
         self._attr_unique_id = f"{self._translation_key}_{config_entry.entry_id}"
+        self._attr_entity_registry_enabled_default = config.get("enabled_default", True)
         self._restricted_mode = False
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{self.coordinator.device_name_slug}_{self._attr_translation_key}"

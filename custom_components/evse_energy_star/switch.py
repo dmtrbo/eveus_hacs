@@ -20,11 +20,10 @@ async def async_setup_entry(hass, entry: ConfigEntry, async_add_entities: AddEnt
         for key, trans_key in SWITCH_DEFINITIONS
     ]
 
-    entities.append(EVSEScheduleSwitch(coordinator, entry))
-    entities.append(EVSESimpleSwitch(coordinator, entry, "oneCharge", "evse_energy_star_one_charge"))
+    entities.append(EVSESimpleSwitch(coordinator, entry, "oneCharge", "evse_energy_star_one_charge", enabled_default=False))
     entities.append(EVSESimpleSwitch(coordinator, entry, "aiMode", "evse_energy_star_adaptive_mode"))
     entities.append(EVSESimpleSwitch(coordinator, entry, "evseEnabled", "evse_energy_star_stop_charging"))
-    entities.append(EVSESimpleSwitch(coordinator, entry, "suspendLimits", "evse_energy_star_suspend_limits"))
+    entities.append(EVSESimpleSwitch(coordinator, entry, "suspendLimits", "evse_energy_star_suspend_limits", enabled_default=False))
 
     async_add_entities(entities)
 
@@ -38,6 +37,7 @@ class EVSESwitch(SwitchEntity):
         self._attr_unique_id = f"{translation_key}_{config_entry.entry_id}"
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{self.coordinator.device_name_slug}_{self._attr_translation_key}"
+        self._attr_entity_registry_enabled_default = False
 
     @property
     def available(self):
@@ -96,64 +96,8 @@ class EVSESwitch(SwitchEntity):
             "sw_version": self.coordinator.data.get("fwVersion")
         }
 
-class EVSEScheduleSwitch(SwitchEntity):
-    def __init__(self, coordinator, config_entry: ConfigEntry):
-        self.coordinator = coordinator
-        self.config_entry = config_entry
-        self._host = coordinator.host
-        self._attr_translation_key = "evse_energy_star_schedule"
-        self._attr_unique_id = f"schedule_{config_entry.entry_id}"
-        self._attr_has_entity_name = True
-        self._attr_suggested_object_id = f"{self.coordinator.device_name_slug}_{self._attr_translation_key}"
-
-    @property
-    def available(self):
-        return self.coordinator.last_update_success
-
-    @property
-    def is_on(self):
-        value = self.coordinator.data.get("isAlarm")
-        return str(value).lower() in ["true", "1"]
-
-    async def async_turn_on(self):
-        await self._send(True)
-
-    async def async_turn_off(self):
-        await self._send(False)
-
-    async def _send(self, state: bool):
-        data = self.coordinator.data
-        if not data:
-            _LOGGER.warning("switch.py → coordinator.data is empty, schedule not updated")
-            return
-
-        payload = (
-            f"isAlarm={'true' if state else 'false'}&"
-            f"startTime={data.get('startTime')}&"
-            f"stopTime={data.get('stopTime')}&"
-            f"timeZone={data.get('timeZone')}"
-        )
-        session = async_get_clientsession(self.coordinator.hass)
-        try:
-            await session.post(f"http://{self._host}/timer", data=payload, headers={
-                "Content-Type": "application/x-www-form-urlencoded"
-            })
-            await self.coordinator.async_request_refresh()
-        except Exception as err:
-            _LOGGER.error("switch.py → schedule update error → %s", repr(err))
-
-    @property
-    def device_info(self):
-        return {
-            "identifiers": {(DOMAIN, self.config_entry.entry_id)},
-            "name": self.config_entry.data.get('device_name', 'Eveus Pro'),
-            "manufacturer": "Energy Star",
-            "model": "EVSE",
-            "sw_version": self.coordinator.data.get("fwVersion")
-        }
-
 class EVSESimpleSwitch(SwitchEntity):
-    def __init__(self, coordinator, config_entry: ConfigEntry, key, translation_key):
+    def __init__(self, coordinator, config_entry: ConfigEntry, key, translation_key, enabled_default=True):
         self.coordinator = coordinator
         self.config_entry = config_entry
         self._host = coordinator.host
@@ -162,6 +106,7 @@ class EVSESimpleSwitch(SwitchEntity):
         self._attr_unique_id = f"{translation_key}_{config_entry.entry_id}"
         self._attr_has_entity_name = True
         self._attr_suggested_object_id = f"{self.coordinator.device_name_slug}_{self._attr_translation_key}"
+        self._attr_entity_registry_enabled_default = enabled_default
 
     @property
     def available(self):
