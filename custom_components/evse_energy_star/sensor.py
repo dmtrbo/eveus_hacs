@@ -7,15 +7,18 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.components.sensor import SensorStateClass, SensorDeviceClass
 from homeassistant.util import dt as dt_util
-from .const import DOMAIN, STATUS_MAP
+from .const import DOMAIN, STATUS_MAP, LIMIT_STATUS_MAP
 
 _LOGGER = logging.getLogger(__name__)
 
 SENSOR_DEFINITIONS = [
     ("state", "evse_energy_star_status", None, None, SensorDeviceClass.ENUM, ["startup", "system_test", "waiting", "connected", "charging", "charge_complete", "suspended", "error", "unknown"], True),
+    ("subState", "evse_energy_star_limit_status", None, None, SensorDeviceClass.ENUM, ["no_limits", "limited_by_user", "limited_by_schedule", "limited_by_time", "limited_by_energy", "limited_by_money"], True),
+    ("pilot", "evse_energy_star_car_connected", None, None, SensorDeviceClass.ENUM, ["yes", "no"], True),
     ("currentSet", "evse_energy_star_current_set", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, True),
     ("curMeas1", "evse_energy_star_current_phase_1", "A", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, True),
     ("voltMeas1", "evse_energy_star_voltage_phase_1", "V", SensorStateClass.MEASUREMENT, SensorDeviceClass.VOLTAGE, None, True),
+    ("powerMeas", "evse_energy_star_power", "kW", SensorStateClass.MEASUREMENT, SensorDeviceClass.POWER, None, True),
     ("temperature1", "evse_energy_star_temperature_box", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None, True),
     ("temperature2", "evse_energy_star_temperature_socket", "°C", SensorStateClass.MEASUREMENT, SensorDeviceClass.TEMPERATURE, None, True),
     ("leakValue", "evse_energy_star_leakage", "mA", SensorStateClass.MEASUREMENT, SensorDeviceClass.CURRENT, None, False),
@@ -79,6 +82,8 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
         if value is None:
             return None
         try:
+            if self._key == "powerMeas":
+                return round(float(value), 3)
             if self._key == "curMeas1":
                 return round(float(value), 2)
             if self._key in ["sessionEnergy", "totalEnergy"]:
@@ -98,6 +103,12 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
             if self._key == "state":
                 # Return translation key from translations files
                 return STATUS_MAP.get(value, "unknown")
+            if self._key == "subState":
+                # Return limit status translation key
+                return LIMIT_STATUS_MAP.get(value, "no_limits")
+            if self._key == "pilot":
+                # Convert pilot signal value to yes/no (1 = car connected)
+                return "yes" if str(value) == "1" else "no"
             return value
         except Exception as err:
             _LOGGER.warning("sensor.py → error processing %s: %s", self._key, repr(err))

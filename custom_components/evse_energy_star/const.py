@@ -12,3 +12,12 @@ STATUS_MAP = {
     6: "suspended",
     7: "error",
 }
+
+LIMIT_STATUS_MAP = {
+    0: "no_limits",
+    1: "limited_by_user",
+    2: "limited_by_schedule",
+    3: "limited_by_time",
+    4: "limited_by_energy",
+    5: "limited_by_money",
+}

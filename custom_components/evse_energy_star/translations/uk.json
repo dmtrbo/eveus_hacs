@@ -57,6 +57,24 @@
           "unknown": "Невідомо"
         }
       },
+      "evse_energy_star_limit_status": {
+        "name": "Статус ліміту",
+        "state": {
+          "no_limits": "Без лімітів",
+          "limited_by_user": "Обмежено користувачем",
+          "limited_by_schedule": "Обмежено розкладом",
+          "limited_by_time": "Обмежено часом",
+          "limited_by_energy": "Обмежено енергією",
+          "limited_by_money": "Обмежено коштами"
+        }
+      },
+      "evse_energy_star_car_connected": {
+        "name": "Підключення до авто",
+        "state": {
+          "yes": "Так",
+          "no": "Ні"
+        }
+      },
       "evse_energy_star_current_set": {
         "name": "Струм (встановлений)"
       },
@@ -65,6 +83,9 @@
       },
       "evse_energy_star_voltage_phase_1": {
         "name": "Напруга фаза 1"
+      },
+      "evse_energy_star_power": {
+        "name": "Потужність"
       },
       "evse_energy_star_temperature_box": {
         "name": "Температура боксу"

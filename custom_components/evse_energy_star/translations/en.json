@@ -57,7 +57,24 @@
           "unknown": "Unknown"
         }
       },
-      "evse_energy_star_current_set": {
+      "evse_energy_star_limit_status": {
+        "name": "Limit Status",
+        "state": {
+          "no_limits": "No Limits",
+          "limited_by_user": "Limited by User",
+          "limited_by_schedule": "Limited by Schedule",
+          "limited_by_time": "Limited by Time",
+          "limited_by_energy": "Limited by Energy",
+          "limited_by_money": "Limited by Cost"
+        }
+      },
+      "evse_energy_star_car_connected": {
+        "name": "Car Connected",
+        "state": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      },      "evse_energy_star_current_set": {
         "name": "Set Current"
       },
       "evse_energy_star_current_phase_1": {
@@ -65,6 +82,9 @@
       },
       "evse_energy_star_voltage_phase_1": {
         "name": "Phase 1 Voltage"
+      },
+      "evse_energy_star_power": {
+        "name": "Power"
       },
       "evse_energy_star_temperature_box": {
         "name": "Box Temperature"
