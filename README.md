@@ -1,5 +1,7 @@
 # ⚡ EVSE Energy Star
 
+![Eveus Chargers](images/readme_banner.png)
+
 **English** | [Українська](README.uk.md)
 
 ---
